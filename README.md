@@ -9,8 +9,8 @@ Supported chains are Base Mainnet, Base Sepolia and localhost. However, support 
 
 ### Clone and Install
 ```shell
-git clone [todo url]
-cd [todo project name]
+git clone https://github.com/eviterin/Contract-Deployer.git
+cd Contract-Deployer
 npm install 
 ```
 
