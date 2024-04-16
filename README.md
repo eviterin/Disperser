@@ -8,7 +8,7 @@ Supported chains are Base Mainnet, Base Sepolia and localhost. However, support 
 [Install Node.js](https://nodejs.org/en/download/package-manager)
 
 ### Clone and Install
-```shell
+```
 git clone https://github.com/eviterin/Contract-Deployer.git
 cd Contract-Deployer
 npm install 
