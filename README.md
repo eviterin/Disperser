@@ -1,6 +1,6 @@
 # Contract Deployer
 
-This project lets you deploy a smart contract to an Ethereum chain. 
+This project lets you deploy a smart contract to an EVM chain. 
 Supported chains are Base Mainnet, Base Sepolia and localhost. However, support for  additional chains can be added by modifying `hardhat.config.js`.
 
 ## Setup
