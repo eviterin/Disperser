@@ -3,6 +3,8 @@
 This project lets you deploy a smart contract to an EVM chain. 
 Supported chains are Base Mainnet, Base Sepolia and localhost. However, support for  additional chains can be added by modifying `hardhat.config.js`.
 
+This is a very trimmed down version of [Hardhat's boilerplate repo](https://github.com/NomicFoundation/hardhat-boilerplate).
+
 ## Setup
 ### Prerequisites
 [Install Node.js](https://nodejs.org/en/download/package-manager)
