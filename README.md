@@ -1,9 +1,6 @@
-# Contract Deployer
+# Disperser
 
-This project lets you deploy a smart contract to an EVM chain. 
-Supported chains are Base Mainnet, Base Sepolia and localhost. However, support for  additional chains can be added by modifying `hardhat.config.js`.
-
-This is a very trimmed down version of [Hardhat's boilerplate repo](https://github.com/NomicFoundation/hardhat-boilerplate).
+This project lets you disperse your Ether to a set of addresses provided.
 
 ## Setup
 ### Prerequisites
@@ -23,21 +20,27 @@ Make sure that the wallet has at least 0.001 Eth on the chain that you will depl
 
 ## Run
 
-Compiles `Lock.sol`, deploys it to the Base Sepolia chain, and then writes to the contract.
-
-The `Lock.sol` contract locks the funds up until the date specified during its deployment. The `showcase.js` script deploys this contract with the parameter set to 10 seconds in the future. 
-
 ```shell
 npx hardhat compile
 npx hardhat run scripts/showcase.js --network base-sepolia
 ```
+Compiles `Disperser.sol` and then deploys it to the Base Sepolia chain.
 
-Expected output:
+The `Disperser.sol` contract can be seeded with Eth using a transfer and then the `disperseEvenly` function can be called which then disperses the funds evenly to all provided addresses.
+
+A `Withdraw` function is also available, which refunds the contract's Ether to its deployer.
+
+Expected output of running `showcase.js`:
 ```
-Lock deployed to: [contract address]
-Attempting to withdraw
-Withdraw failed (expected)
-Sleeping for 15 seconds
-Attempting to withdraw again
-Withdraw successful (expected)
+Compiled 1 Solidity file successfully (evm target: paris).
+Disperse deployed to: 0x399aA7863f0982066E5f9C2Ae1123747a57eB780
+Sent 0.01 ETH to 0x399aA7863f0982066E5f9C2Ae1123747a57eB780
+Balance: 0.01 ETH
+Withdrew all ETH
+Balance: 0.0 ETH
+Sent 0.01 ETH to 0x399aA7863f0982066E5f9C2Ae1123747a57eB780
+Ether dispersed evenly to 3 recipients.
+Balance: 0.000000000000000001 ETH
+Withdrew all ETH
+Balance: 0.0 ETH
 ```
