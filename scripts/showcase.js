@@ -1,34 +1,71 @@
 const { deploy } = require("./deploy");
+const { ethers } = require("hardhat");
 
-function sleep(milliseconds) {
-    return new Promise(resolve => setTimeout(resolve, milliseconds));
+var contractAddress; 
+var disperse;
+async function main() {
+    
+    disperse = await deploy("Disperse");
+    contractAddress = await disperse.getAddress(); 
+
+    await sendEther(0.01);
+    await getBalance();
+    await withdrawAll();
+    await getBalance();
+    await sendEther(0.01);
+    
+    const recipients = [
+        "0x17AC63ee40906262B4b3debD4Ed9053D430BCFC1",
+        "0x0587159Fa68272EE306eF8151d8A488eBeB46244",
+        "0xC16c14DFC6C15eA1325BD25419351E3269845524",
+    ];
+    
+    await disperseEvenly(recipients);
+    await getBalance();
+    await withdrawAll();
+    await getBalance();
 }
 
-async function main() {
-    const unlockTime = Math.floor(Date.now() / 1000) + 10; 
-    const deployOptions = { value: ethers.parseEther("0.001") };
-    const lock = await deploy("Lock", [unlockTime], deployOptions);
+async function sendEther(amount) {
+    const [deployer] = await ethers.getSigners();
+    amount = ethers.parseEther(amount.toString()); 
 
-    console.log("Attempting to withdraw");
-    try {
-        const initialWithdrawResponse = await lock.withdraw();
-        await initialWithdrawResponse.wait();
-        console.log("Withdraw successful (unexpectedly)");
-    } catch (error) {
-        console.log("Withdraw failed (expected)");
-    }
+    const tx = await deployer.sendTransaction({
+        to: contractAddress,
+        value: amount
+    });
 
-    console.log("Sleeping for 15 seconds")
-    await sleep(15000);
+    await tx.wait();
 
-    console.log("Attempting to withdraw again")
-    try {
-        const withdrawResponse = await lock.withdraw();
-        await withdrawResponse.wait();
-        console.log("Withdraw successful (expected)");
-    } catch (error) {
-        console.log("Withdraw failed (unexpectedly):", error.message); 
-    }
+    console.log(`Sent ${ethers.formatEther(amount)} ETH to ${contractAddress}`);
+}
+
+async function disperseEvenly(recipients) {
+    const [deployer] = await ethers.getSigners();
+
+    const tx = await disperse.disperseEvenly(recipients, {
+        from: deployer.address
+    });
+
+    await tx.wait();
+    console.log(`Ether dispersed evenly to ${recipients.length} recipients.`);
+}
+
+async function withdrawAll() {
+    const [deployer] = await ethers.getSigners();
+
+    const tx = await disperse.withdrawAll({
+        from: deployer.address
+    });
+
+    await tx.wait();
+
+    console.log(`Withdrew all Ether`);
+}
+
+async function getBalance() {
+    const res = await disperse.getBalance();
+    console.log(`Balance: ${ethers.formatEther(res)} ETH`);
 }
 
 main()
