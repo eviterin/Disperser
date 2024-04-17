@@ -27,7 +27,7 @@ contract Disperse {
 
         for (uint i = 0; i < recipients.length; i++) {
             (bool success, ) = recipients[i].call{value: amountPerRecipient}("");
-            require(success, "Failed to send Ether");
+            require(success, "Failed to send ETH");
             emit EtherDispersed(recipients[i], amountPerRecipient);
         }
     }
@@ -35,7 +35,7 @@ contract Disperse {
     function withdrawAll() public onlyOwner {
         uint balance = address(this).balance;
         (bool success, ) = owner.call{value: balance}("");
-        require(success, "Failed to withdraw Ether");
+        require(success, "Failed to withdraw ETH");
     }
 
     function getBalance() public view returns (uint) {
