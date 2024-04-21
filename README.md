@@ -9,7 +9,7 @@ This project lets you disperse your Ether to a set of addresses provided.
 ### Clone and Install
 ```
 git clone https://github.com/eviterin/Contract-Deployer.git
-cd Contract-Deployer
+cd Disperser
 npm install 
 ```
 
